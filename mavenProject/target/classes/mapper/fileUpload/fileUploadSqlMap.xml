@@ -1,0 +1,83 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fileUpload">
+	
+	<select id="fileNo" resultType="int">
+		SELECT
+			SEQ_FILENO.NEXTVAL
+		FROM
+			DUAL
+	</select>
+	
+	<insert id="insertFile" parameterType="hashmap">
+		INSERT INTO
+			ATCHFILE
+			(
+				F_GROUP,
+				F_ORDER,
+				F_PATH,
+				F_NAME_ORG,
+				F_NAME_SAV,
+				F_SIZE,
+				F_EXTENSION
+			)
+			VALUES
+			(
+				#{f_group},
+				(SELECT NVL(MAX(F_ORDER),0) + 1 FROM ATCHFILE WHERE F_GROUP = #{f_group}),
+				#{f_path},
+				#{f_name_org},
+				#{f_name_sav},
+				#{f_size},
+				#{f_extension}
+			)
+	</insert>
+	
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			F_GROUP,
+			F_ORDER,
+			F_PATH,
+			F_NAME_ORG,
+			F_NAME_SAV,
+			F_SIZE,
+			F_EXTENSION
+		FROM
+			ATCHFILE
+		WHERE
+			<if test="f_group != null">
+				F_GROUP = #{f_group}
+			</if>
+			<if test="f_group == null">
+				F_GROUP = 0
+			</if>
+	</select>
+
+	<select id="selectFileOne" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			F_GROUP,
+			F_ORDER,
+			F_PATH,
+			F_NAME_ORG,
+			F_NAME_SAV,
+			F_SIZE,
+			F_EXTENSION
+		FROM
+			ATCHFILE
+		WHERE
+			F_GROUP = #{f_group} AND
+			F_ORDER = #{f_order}
+	</select>
+	
+	<delete id="deleteFile" parameterType="hashmap">
+		DELETE
+		FROM
+			ATCHFILE
+		WHERE
+			F_GROUP = #{f_group} AND
+			F_ORDER = #{f_order}
+	</delete>
+	
+</mapper>
