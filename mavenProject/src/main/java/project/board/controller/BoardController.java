@@ -26,7 +26,7 @@ public class BoardController extends CommonUtil {
 		
 		// 페이징(S)
 		int total = boardService.selectBoardCount(hm);
-		Paging paging = new Paging();
+		Paging paging = new Paging(); 
 		paging.setActionname("board");	// 액션명
 		paging.setListNumber(hm);
 		String pagingHtml = paging.pagingHatml(Integer.parseInt(hm.get("currentPage")), total);
