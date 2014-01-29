@@ -6,7 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>파일 업로드 페이지</title>
-<script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>
+<!-- js, css include(S)-->
+<%@ include file="/WEB-INF/include/include.jsp"%>
+<!-- js, css include(E)-->
+
 <script language="javascript">
 	var count = 1;
 	var addCount;

@@ -43,6 +43,14 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+	 			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+	 		</list>
+	 	</property>
+	</bean>
+	 
 	<context:component-scan base-package="project" />
 	
 </beans>
