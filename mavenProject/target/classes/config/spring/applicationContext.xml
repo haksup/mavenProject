@@ -56,10 +56,11 @@
 	<context:component-scan base-package="project" />
 	
 	<bean id="loginAdvice" class="project.util.SessionUtil" />
+	
 	<aop:config>
 		<aop:aspect id="loginAop" ref="loginAdvice">
-			<aop:pointcut id="loginMethod" expression="execution(* * project..*.*(..))" />
-			<aop:before method="trace" pointcut-ref="loginMethod"/>
+			<aop:pointcut id="loginMethod" expression="execution(public * project..*(..))" />
+			<aop:before method="loginCheck" pointcut-ref="loginMethod"/>
 		</aop:aspect>
 	</aop:config>
 	
