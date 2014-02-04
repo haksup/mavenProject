@@ -24,8 +24,33 @@ jQuery(document).ready(function(){
 			async : false,
 			datatype: 'json',
 			success : function(result){
-				alert(result);
-				alert(result.ret);
+				if(result.ret == "false"){
+					alert("아이디 또는 패스워드를 확인해 주시기 바랍니다.");
+				}
+				else if(result.ret == "true"){
+					alert("로그인이 완료되었습니다.");
+				}
+			},
+			error : function(){
+				alert("error");
+			}
+			
+		});
+	});		
+
+	$('#btnLoginConfirm').click(function(){
+		$.ajax({
+			url: 'btnLoginConfirm.do',
+			type: 'post',
+			async : false,
+			datatype: 'json',
+			success : function(result){
+				if(result.loginYn == "N"){
+					alert("로그인이 되어 있지 않습니다.");
+				}
+				else if(result.loginYn == "Y"){
+					alert("로그인이 되어 있습니다.");
+				}
 			},
 			error : function(){
 				alert("error");
@@ -42,6 +67,8 @@ jQuery(document).ready(function(){
 id : <input id="userId" name="userId" /></br/>
 pw : <input id="userPw" name="userPw" /><br/>
 <input type="submit" name="btnLogin" id="btnLogin" value="로그인" />
+<input type="submit" name="btnLoginConfirm" id="btnLoginConfirm" value="로그인 여부 체크" />
 ${message}
+${name}
 </body>
 </html>
