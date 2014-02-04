@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+	
+	<select id="selectUserCheck" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			  USER_ID
+			, NAME
+			, PASSWORD
+		FROM
+			MEMBER
+		WHERE
+				USER_ID = #{userId}
+			AND PASSWORD = #{userPw}
+	</select>
+	
+</mapper>
