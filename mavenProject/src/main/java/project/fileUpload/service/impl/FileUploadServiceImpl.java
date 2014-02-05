@@ -15,6 +15,7 @@ import org.apache.ibatis.io.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.fileUpload.dao.FileUploadDao;
 import project.fileUpload.dao.impl.FileUploadDaoImpl;
 import project.fileUpload.service.FileUploadService;
 
@@ -24,7 +25,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 @Service
 public class FileUploadServiceImpl implements FileUploadService{
 	@Autowired
-	private FileUploadDaoImpl fileUploadDao;
+	private FileUploadDao fileUploadDao;
 	
 	@Override
 	public void upload(HttpServletRequest request) {
