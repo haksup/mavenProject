@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class BoardController extends CommonUtil {
 	private BoardService boardService;
 	
 	@RequestMapping("board.do")
-	public ModelAndView board(HttpServletRequest request) throws Exception {
+	public ModelAndView board(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		hm = mapBind(request);
 		

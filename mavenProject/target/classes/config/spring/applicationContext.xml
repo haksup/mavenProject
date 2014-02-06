@@ -60,7 +60,7 @@
 	<aop:config>
 		<aop:aspect id="loginAop" ref="loginAdvice">
 			<aop:pointcut id="loginMethod" expression="execution(public * project..*(..))" />
-			<aop:before method="loginCheck" pointcut-ref="loginMethod"/>
+			<aop:around method="loginAdvice" pointcut-ref="loginMethod"/>
 		</aop:aspect>
 	</aop:config>
 	
