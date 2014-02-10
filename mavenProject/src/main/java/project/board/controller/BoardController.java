@@ -23,7 +23,7 @@ public class BoardController extends CommonUtil {
 	@RequestMapping("board.do")
 	public ModelAndView board(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, String> hm = new HashMap<String, String>();
-		hm = mapBind(request);
+		hm = mapBind(request); 
 		
 		// 페이징(S)
 		int total = boardService.selectBoardCount(hm);
