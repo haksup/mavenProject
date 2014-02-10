@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+ 	xmlns:context="http://www.springframework.org/schema/context"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ 	xmlns:aop="http://www.springframework.org/schema/aop"
+ 	xsi:schemaLocation="
+ 		http://www.springframework.org/schema/beans 
+ 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 		http://www.springframework.org/schema/context
+ 		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+ 		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+ 	
+ 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  		<property name="location">
+   			<value>classpath:config/db/db.properties</value>
+  		</property>
+ 	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+  		<property name="driverClassName" value="${driver}" /> 
+  		<property name="url" value="${url}" /> 
+  		<property name="username" value="${username}" /> 
+  		<property name="password" value="${password}" /> 
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+  		<property name="dataSource" ref="dataSource" /> 
+  		<property name="mapperLocations" value="classpath:mapper/**/*.xml" />
+	</bean> 
+ 
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
+  		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="mapperDao" class="project.mapperDao.MapperDao">
+  		<property name="sqlSession" ref="sqlSession"></property>
+	</bean>
+	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+	 			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+	 		</list>
+	 	</property>
+	</bean>
+	 
+	<context:component-scan base-package="project" />
+	
+	<bean id="loginAdvice" class="project.util.SessionUtil" />
+	
+	<aop:config>
+		<aop:aspect id="loginAop" ref="loginAdvice">
+			<aop:pointcut id="loginMethod" expression="execution(public * project..*(..))" />
+			<aop:around method="loginAdvice" pointcut-ref="loginMethod"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>
