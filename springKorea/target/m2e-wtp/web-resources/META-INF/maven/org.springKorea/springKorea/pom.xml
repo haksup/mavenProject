@@ -250,10 +250,6 @@
 			<version>2.2.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springKorea</groupId>
-			<artifactId>springKorea</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
