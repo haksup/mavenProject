@@ -26,42 +26,23 @@
   		<property name="password" value="${password}" /> 
 	</bean>
 	
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
-  		<property name="dataSource" ref="dataSource" /> 
-  		<property name="mapperLocations" value="classpath:mapper/**/*.xml" />
-	</bean> 
+	<bean id="userService" class="toby.chap5.beanObject.serivce.UserService">
+		<property name="userDao" ref="userDao"/>
+	</bean>
+	
+	<bean id="userDao" class="toby.chap5.beanObject.dao.impl.UserDaoImpl">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	
+<!-- 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  -->
+<!--   		<property name="dataSource" ref="dataSource" />  -->
+<!--   		<property name="mapperLocations" value="classpath:mapper/**/*.xml" /> -->
+<!-- 	</bean>  -->
  
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"> 
-  		<constructor-arg index="0" ref="sqlSessionFactory" />
-	</bean>
-
-	<bean id="mapperDao" class="project.mapperDao.MapperDao">
-  		<property name="sqlSession" ref="sqlSession"></property>
-	</bean>
+<!-- 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">  -->
+<!--   		<constructor-arg index="0" ref="sqlSessionFactory" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/view/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-	
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-	 			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
-	 		</list>
-	 	</property>
-	</bean>
-	 
-	<context:component-scan base-package="project" />
-	
-	<bean id="loginAdvice" class="project.util.SessionUtil" />
-	
-	<aop:config>
-		<aop:aspect id="loginAop" ref="loginAdvice">
-			<aop:pointcut id="loginMethod" expression="execution(public * project..*(..))" />
-			<aop:around method="loginAdvice" pointcut-ref="loginMethod"/>
-		</aop:aspect>
-	</aop:config>
 	
 </beans>
