@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import toby.chap5.beanObject.dao.UserDao;
-import toby.chap5.enumEx.User1;
+import toby.chap5.enumEx.User;
 import toby.chap5.enumEx.Enum.Level;
 
 public class UserDaoImpl implements UserDao{
@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao{
 
 
 	@Override
-	public void add(User1 user1){
+	public void add(User user1){
 		this.jdbcTemplate.update(
 				"insert into users(id, name, password, lev, login, recommend)" +
 				"values(?, ?, ?, ?, ?, ?)", user1.getId(), user1.getName(),
@@ -39,18 +39,18 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	@Override
-	public void update(User1 user1) {
+	public void update(User user1) {
 		this.jdbcTemplate.update("update users set name = ?, password = ?, lev = ?, login = ?, " + 
 				"recommend = ? where id = ? ", user1.getName(), user1.getPassword(), user1.getLevel().intValue(), 
 				user1.getLogin(), user1.getRecommend(), user1.getId());
 	}
 	
-	public List<User1> getAll(){
+	public List<User> getAll(){
 		List<Map<String, Object>> rows = this.jdbcTemplate.queryForList("select * from users");
 		
-		List<User1> listUser = new ArrayList<User1>();
+		List<User> listUser = new ArrayList<User>();
 		for (Map row : rows) {
-			User1 user1 = new User1();
+			User user1 = new User();
 			user1.setId((String) row.get("ID"));
 			user1.setName((String) row.get("NAME"));
 			user1.setPassword((String) row.get("PASSWORD"));

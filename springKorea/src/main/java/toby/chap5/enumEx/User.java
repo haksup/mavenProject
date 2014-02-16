@@ -1,28 +1,61 @@
 package toby.chap5.enumEx;
 
+import toby.chap5.enumEx.Enum.Level;
+
 public class User {
-	private static final int BASIC = 1;
-	private static final int SILVER = 2;
-	private static final int GOLD = 3;
+	String id;
+	String name;
+	String password;
+	Level level;
+	int login;
+	int recommend;
 	
-	int level;
+	public User(){};
 	
-	public void setLevel(int level){
+	public User(String id, String name, String password, Level level, int login, int recommend){
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.level = level;
+		this.login = login;
+		this.recommend = recommend;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Level getLevel() {
+		return level;
+	}
+	public void setLevel(Level level) {
 		this.level = level;
 	}
-	
-	public void levelScope(){
-		setLevel(1);
-		if(level == BASIC){
-			System.out.println("BASIC");
-		}
-		
-//		User user = new User();
-//		user.level = 0;
+	public int getLogin() {
+		return login;
+	}
+	public void setLogin(int login) {
+		this.login = login;
+	}
+	public int getRecommend() {
+		return recommend;
+	}
+	public void setRecommend(int recommend) {
+		this.recommend = recommend;
 	}
 	
-	public static void main(String args[]){
-		User user = new User();
-		user.levelScope();
-	}
 }
