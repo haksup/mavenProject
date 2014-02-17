@@ -46,8 +46,8 @@ public class UserDaoTest {
 //		User1 userget1 = new User1("gyumee", "박성철", "springno1", Level.BASIC, 1, 0);
 //		checkSameUser(userget1, user1);
 //		userService.getUserDao().update(userget1);
-		userService.getUserDao().add(user2);
-		userService.getUserDao().add(user3);
+//		userService.getUserDao().add(user2);
+//		userService.getUserDao().add(user3);
 	}
 	
 //	@Test
@@ -58,10 +58,10 @@ public class UserDaoTest {
 		System.out.println("aaa " + Level.BASIC.nextLevel());
 	}
 	
-	@Test
-	public void upgradeAllOrNothing(){
-		userService.upgradeAllOrNothing();
-	}
+//	@Test
+//	public void upgradeAllOrNothing(){
+//		userService.upgradeAllOrNothing();
+//	}
 	
 	
 }
