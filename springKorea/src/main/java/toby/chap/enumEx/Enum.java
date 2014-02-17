@@ -1,4 +1,4 @@
-package toby.chap5.enumEx;
+package toby.chap.enumEx;
 
 public class Enum {
 //	public enum Level{

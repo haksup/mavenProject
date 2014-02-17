@@ -1,8 +1,8 @@
-package toby.chap5.beanObject.dao;
+package toby.chap.beanObject.dao;
 
 import java.util.List;
 
-import toby.chap5.enumEx.User;
+import toby.chap.enumEx.User;
 
 public interface UserDao {
 	public void add(User user1);

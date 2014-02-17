@@ -1,4 +1,4 @@
-package toby.chap5.beanObject.dao.impl;
+package toby.chap.beanObject.dao.impl;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -12,9 +12,9 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import toby.chap5.beanObject.dao.UserDao;
-import toby.chap5.enumEx.User;
-import toby.chap5.enumEx.Enum.Level;
+import toby.chap.beanObject.dao.UserDao;
+import toby.chap.enumEx.User;
+import toby.chap.enumEx.Enum.Level;
 
 public class UserDaoImpl implements UserDao{
 	private DataSource dataSource;

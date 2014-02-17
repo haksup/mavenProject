@@ -1,4 +1,4 @@
-package toby.chap5.beanObject.serivce;
+package toby.chap.beanObject.serivce;
 
 public interface UserService {
 	void upgradeLevels();

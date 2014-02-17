@@ -1,10 +1,10 @@
-package toby.chap5.beanObject.serivce.impl;
+package toby.chap.beanObject.serivce.impl;
 
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import toby.chap5.beanObject.serivce.UserService;
+import toby.chap.beanObject.serivce.UserService;
 
 public class UserServiceTx implements UserService {
 	UserService userService;

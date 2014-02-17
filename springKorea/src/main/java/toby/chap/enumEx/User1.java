@@ -1,8 +1,8 @@
-package toby.chap5.enumEx;
+package toby.chap.enumEx;
 
-import toby.chap5.enumEx.Enum.Level;
+import toby.chap.enumEx.Enum.Level;
 
-public class User {
+public class User1 {
 	String id;
 	String name;
 	String password;
@@ -10,9 +10,9 @@ public class User {
 	int login;
 	int recommend;
 	
-	public User(){};
+	public User1(){};
 	
-	public User(String id, String name, String password, Level level, int login, int recommend){
+	public User1(String id, String name, String password, Level level, int login, int recommend){
 		this.id = id;
 		this.name = name;
 		this.password = password;

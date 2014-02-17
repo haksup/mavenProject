@@ -1,7 +1,7 @@
-package toby.chap5.beanObject.serivce;
+package toby.chap.beanObject.serivce;
 
-import toby.chap5.beanObject.serivce.impl.UserServiceImpl;
-import toby.chap5.enumEx.User;
+import toby.chap.beanObject.serivce.impl.UserServiceImpl;
+import toby.chap.enumEx.User;
 
 public class TsetUserService extends UserServiceImpl {
 	private String id;

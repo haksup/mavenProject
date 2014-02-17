@@ -13,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import toby.chap5.beanObject.serivce.TsetUserService;
-import toby.chap5.beanObject.serivce.impl.UserServiceImpl;
-import toby.chap5.enumEx.User;
-import toby.chap5.enumEx.Enum.Level;
+import toby.chap.beanObject.serivce.TsetUserService;
+import toby.chap.beanObject.serivce.impl.UserServiceImpl;
+import toby.chap.enumEx.User;
+import toby.chap.enumEx.Enum.Level;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/config/spring/applicationContext.xml")
@@ -69,6 +69,8 @@ public class UserDaoTest {
 	@Test
 	public void test() throws SQLException{
 		userService.upgradeLevels();
+		
+		MockMailSender mockMailSender = new MockMailSender();
 	}
 	
 	
