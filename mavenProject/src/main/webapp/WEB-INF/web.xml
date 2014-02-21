@@ -14,6 +14,7 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:config/spring/applicationContext.xml</param-value>
 		</init-param>
+		<load-on-startup>1</load-on-startup>	<!-- 웹 어플리케이션 구동시 자동으로 서블릿 클래스를 초기화(init)한다. -->
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>

@@ -3,15 +3,18 @@
 <beans 
     xmlns="http://www.springframework.org/schema/beans"
  	xmlns:context="http://www.springframework.org/schema/context"
+ 	xmlns:task="http://www.springframework.org/schema/task"
  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
  	xmlns:aop="http://www.springframework.org/schema/aop"
  	xsi:schemaLocation="
  		http://www.springframework.org/schema/beans 
- 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ 		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
  		http://www.springframework.org/schema/context
- 		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+ 		http://www.springframework.org/schema/context/spring-context-3.1.xsd
+ 		http://www.springframework.org/schema/task
+ 		http://www.springframework.org/schema/task/spring-task-3.1.xsd
  		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
  	
  	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
   		<property name="location">
@@ -55,13 +58,26 @@
 	 
 	<context:component-scan base-package="project" />
 	
-	<bean id="loginAdvice" class="project.util.SessionUtil" />
+<!-- 	<bean id="loginAdvice" class="project.util.SessionUtil" /> -->
 	
-	<aop:config>
-		<aop:aspect id="loginAop" ref="loginAdvice">
-			<aop:pointcut id="loginMethod" expression="execution(public * project..*(..))" />
-			<aop:around method="loginAdvice" pointcut-ref="loginMethod"/>
-		</aop:aspect>
-	</aop:config>
+<!-- 	<aop:config> -->
+<!-- 		<aop:aspect id="loginAop" ref="loginAdvice"> -->
+<!-- 			<aop:pointcut id="loginMethod" expression="execution(public * project..*(..))" /> -->
+<!-- 			<aop:around method="loginAdvice" pointcut-ref="loginMethod"/> -->
+<!-- 		</aop:aspect> -->
+<!-- 	</aop:config> -->
+	
+	<!-- 스케줄러(S) -->
+<!-- 	<task:scheduler id="taskScheduler" pool-size="10" /> -->
+<!--     <task:executor id="taskExecutor" pool-size="10"/> -->
+<!--     <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/> -->
+	
+	<bean id="schedulerService" class="project.task.SchedulerService"/>
+	
+	<task:scheduler id="scheduler" pool-size="2"/>
+	<task:scheduled-tasks scheduler="scheduler">
+	    <task:scheduled ref="schedulerService" method="schedulerRun" fixed-delay="2000"/>
+	</task:scheduled-tasks>
+	<!-- 스케줄러(E) -->
 	
 </beans>

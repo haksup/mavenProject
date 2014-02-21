@@ -1,5 +1,8 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/java/springbook/user/dao/UserDaoTest.java=euc-kr
+encoding//src/main/java/springbook/user/service/UserServiceImpl.java=euc-kr
+encoding//src/main/java/springbook/user/service/UserServiceTest.java=euc-kr
 encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

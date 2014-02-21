@@ -31,6 +31,14 @@
             <version>1.1</version>
         </dependency>
 		<!-- junit(E) -->
+		
+		<!-- mockito(S) -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+		<!-- mockito(E) -->
 
 		<!-- apache commons(S) -->
 		<dependency>

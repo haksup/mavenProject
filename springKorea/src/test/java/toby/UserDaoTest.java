@@ -1,7 +1,6 @@
 package toby;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
@@ -14,15 +13,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import toby.chap.beanObject.serivce.TsetUserService;
+import toby.chap.beanObject.serivce.UserService;
 import toby.chap.beanObject.serivce.impl.UserServiceImpl;
-import toby.chap.enumEx.User;
 import toby.chap.enumEx.Enum.Level;
+import toby.chap.enumEx.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/config/spring/applicationContext.xml")
 public class UserDaoTest {
 	@Autowired
-	UserServiceImpl userService;
+	UserService userService;
+
+	@Autowired
+	UserServiceImpl userServiceImpl;
 	
 	private User user1;
 	private User user2;
@@ -49,8 +52,8 @@ public class UserDaoTest {
 //		User1 userget1 = new User1("gyumee", "박성철", "springno1", Level.BASIC, 1, 0);
 //		checkSameUser(userget1, user1);
 //		userService.getUserDao().update(userget1);
-		userService.getUserDao().add(user2);
-		userService.getUserDao().add(user3);
+//		userService.getUserDao().add(user2);
+//		userService.getUserDao().add(user3);
 	}
 	
 //	@Test
@@ -68,9 +71,8 @@ public class UserDaoTest {
 	
 	@Test
 	public void test() throws SQLException{
-		userService.upgradeLevels();
+		TsetUserService tsetUserService = new TsetUserService(user1.getId());
 		
-		MockMailSender mockMailSender = new MockMailSender();
 	}
 	
 	

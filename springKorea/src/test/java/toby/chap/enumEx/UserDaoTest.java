@@ -1,4 +1,4 @@
-package toby.chap5.enumEx;
+package toby.chap.enumEx;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
