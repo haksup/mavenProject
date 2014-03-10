@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  		<property name="location">
+   			<value>classpath:config/db/db.properties</value>
+  		</property>
+ 	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+  		<property name="driverClassName" value="${driver}" /> 
+  		<property name="url" value="${url}" /> 
+  		<property name="username" value="${username}" /> 
+  		<property name="password" value="${password}" /> 
+	</bean>
+	
+	<bean id="userDao" class="springbook.user.dao.UserDaoJdbc">
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
+	
+<!-- 	<bean id="userService" class="springbook.user.service.TxProxyFactoryBean"> -->
+<!-- 		<property name="target" ref="userServiceImpl" />   -->
+<!-- 		<property name="transactionManager" ref="transactionManager" /> -->
+<!-- 		<property name="pattern" value="upgradeLevels" /> -->
+<!-- 		<property name="serviceInterface" value="springbook.user.service.UserService"></property> -->
+<!-- 	</bean> -->
+	
+	<bean id="userServiceImpl" class="springbook.user.service.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="mailSender" ref="mailSender" />
+	</bean>	
+
+
+	<!-- 
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.server.com" />
+	</bean>
+	 -->
+	<bean id="mailSender" class="springbook.user.service.DummyMailSender" />
+		
+	<bean id="transactionAdvice" class="springbook.learningtest.proxy.TransactionAdvice">
+		<property name="transactionManager" ref="transactionManager"/>
+	</bean>
+	<bean id="transctionPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedClassNmae" value="*ServiceImpl" />
+		<property name="mappedName" value="upgrade*" />
+	</bean>
+	<bean id="transactionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice" ref="transactionAdvice"/>
+		<property name="pointcut" ref="transctionPointcut"/> 
+	</bean>
+	<bean id="userService" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="userServiceImpl" />
+		<property name="interceprotNames">
+			<list>
+				<value>transactionAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" 
+						class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />  
+	</bean>
+	
+	
+	
+</beans>

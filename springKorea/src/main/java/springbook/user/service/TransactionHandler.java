@@ -9,39 +9,36 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 public class TransactionHandler implements InvocationHandler {
-	private Object target;
-	private PlatformTransactionManager transactionManager;
-	private String pattern;
-	
-	
+	Object target;
+	PlatformTransactionManager transactionManager;
+	String pattern;
+
 	public void setTarget(Object target) {
 		this.target = target;
 	}
 
-
-	public void setTransactionManager(PlatformTransactionManager transactionManager) {
+	public void setTransactionManager(
+			PlatformTransactionManager transactionManager) {
 		this.transactionManager = transactionManager;
 	}
-
 
 	public void setPattern(String pattern) {
 		this.pattern = pattern;
 	}
 
-
-	@Override
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		if(method.getName().startsWith(pattern)){
+		if (method.getName().startsWith(pattern)) {
 			return invokeInTransaction(method, args);
-		}
-		else{
+		} else {
 			return method.invoke(target, args);
 		}
 	}
-	
-	private Object invokeInTransaction(Method method, Object[] args) throws Throwable{
-		TransactionStatus status = this.transactionManager.getTransaction(new DefaultTransactionDefinition());
+
+	private Object invokeInTransaction(Method method, Object[] args)
+			throws Throwable {
+		TransactionStatus status = this.transactionManager
+				.getTransaction(new DefaultTransactionDefinition());
 		try {
 			Object ret = method.invoke(target, args);
 			this.transactionManager.commit(status);
@@ -50,7 +47,5 @@ public class TransactionHandler implements InvocationHandler {
 			this.transactionManager.rollback(status);
 			throw e.getTargetException();
 		}
-		
 	}
-
 }

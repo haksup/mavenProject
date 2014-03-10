@@ -24,7 +24,7 @@ import springbook.user.domain.Level;
 import springbook.user.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/config/spring/test-applicationContext.xml")
+@ContextConfiguration(locations="/test-applicationContext.xml")
 public class UserDaoTest {
 	@Autowired UserDao dao; 
 	@Autowired DataSource dataSource;
@@ -136,7 +136,7 @@ public class UserDaoTest {
 			SQLException sqlEx = (SQLException)ex.getCause();
 			SQLExceptionTranslator set = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);			
 			DataAccessException transEx = set.translate(null, null, sqlEx);
-//			assertThat(transEx, is(DuplicateKeyException.class));
+			//assertThat(transEx, is(DuplicateKeyException.class));
 		}
 	}
 	
