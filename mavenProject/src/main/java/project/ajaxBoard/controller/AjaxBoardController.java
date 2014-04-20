@@ -24,7 +24,7 @@ public class AjaxBoardController extends CommonUtil{
 	public ModelAndView ajaxBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		hm = mapBind(request); 
-		
+		//
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board/ajaxBoard");
 
