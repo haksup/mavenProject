@@ -4,32 +4,35 @@
 
 <mapper namespace="board">
 	
-	<select id="selectBoardCount" resultType="Integer">
+	<select id="selectBoardCount" parameterType="hashmap" resultType="Integer">
 		SELECT
 			COUNT(*) AS CNT
 		FROM 
 			BOARD
+		WHERE
+			BOARD_NAME = #{boardName}
 	</select>
 	
-	<select id="selectBoard" resultType="hashmap">
+	<select id="selectBoard" parameterType="hashmap" resultType="hashmap">
 		SELECT * FROM (	SELECT ROWNUM RNUM,  ORG.* FROM (
 			SELECT
-				BOARD_NO,
-				CONTENTS,
-				DEL_YN,
-				REG_DATE,
-				REG_USER,
-				TITLE
+				  BOARD_NAME
+				, BOARD_NO
+				, CONTENTS
+				, DEL_YN
+				, REG_DATE
+				, REG_USER
+				, TITLE
 			FROM 
 				BOARD
-			<where>
+			WHERE
+				BOARD_NAME = #{boardName}
 				<if test="pam01 != null">
-					BOARD_NO = #{pam01}
+					AND BOARD_NO = #{pam01}
 				</if>
 				<if test="pam02 != null">
 					AND DEL_YN = #{pam02}
 				</if>
-			</where>
 		) ORG	) WHERE RNUM BETWEEN #{liststart} AND #{listend} 
 	</select>
 	

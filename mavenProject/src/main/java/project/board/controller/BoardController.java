@@ -23,11 +23,13 @@ public class BoardController extends CommonUtil {
 	@RequestMapping("board.do")
 	public ModelAndView board(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, String> hm = new HashMap<String, String>();
-		hm = mapBind(request); 
+		hm = mapBind(request);
+		hm.put("boardName", "NOTICE");
 		
 		// 페이징(S)
 		int total = boardService.selectBoardCount(hm);
 		Paging paging = new Paging(); 
+		paging.setBoardName("NOTICE");		// 게시판명
 		paging.setActionname("board");	// 액션명
 		paging.setListNumber(hm);
 		String pagingHtml = paging.pagingHatml(Integer.parseInt(hm.get("currentPage")), total);
