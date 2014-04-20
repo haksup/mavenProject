@@ -1,0 +1,73 @@
+/*------------------------------------------------------------------------------
+-- 개체 이름: MYBORN.BOARD
+-- 만든 날짜: 2014-04-20 오전 10:10:57
+-- 마지막으로 수정한 날짜: 2014-04-20 오전 10:12:43
+-- 상태: VALID
+------------------------------------------------------------------------------*/
+DROP TABLE MYBORN.BOARD CASCADE CONSTRAINTS;
+
+CREATE TABLE MYBORN.BOARD (
+  BOARD_NAME    VARCHAR2(100 BYTE)     NOT NULL, 
+  BOARD_NO      NUMBER                 NOT NULL, 
+  TITLE         VARCHAR2(100 BYTE)         NULL, 
+  CONTENTS      VARCHAR2(500 BYTE)         NULL, 
+  DEL_YN        VARCHAR2(1 BYTE)           NULL, 
+  REG_DATE      DATE                  DEFAULT SYSDATE                       NULL, 
+  REG_USER      VARCHAR2(15 BYTE)          NULL, 
+  MOD_DATE      DATE                  DEFAULT SYSDATE                       NULL, 
+  MOD_USER      VARCHAR2(15 BYTE)          NULL
+)
+TABLESPACE USERS
+PCTFREE    10
+PCTUSED    0
+INITRANS   1
+MAXTRANS   255
+STORAGE (
+    INITIAL     64K
+    NEXT        1M
+    MINEXTENTS  1
+    MAXEXTENTS  UNLIMITED
+)
+LOGGING
+NOCACHE
+MONITORING
+NOPARALLEL
+;
+
+COMMENT ON TABLE MYBORN.BOARD IS '게시판';
+
+COMMENT ON COLUMN MYBORN.BOARD.BOARD_NAME IS '게시판명';
+
+COMMENT ON COLUMN MYBORN.BOARD.BOARD_NO IS '게시판 번호';
+
+COMMENT ON COLUMN MYBORN.BOARD.TITLE IS '제목';
+
+COMMENT ON COLUMN MYBORN.BOARD.CONTENTS IS '내용';
+
+COMMENT ON COLUMN MYBORN.BOARD.DEL_YN IS '삭제여부';
+
+COMMENT ON COLUMN MYBORN.BOARD.REG_DATE IS '생성일시';
+
+COMMENT ON COLUMN MYBORN.BOARD.REG_USER IS '생성자';
+
+COMMENT ON COLUMN MYBORN.BOARD.MOD_DATE IS '수정자';
+
+COMMENT ON COLUMN MYBORN.BOARD.MOD_USER IS '수정자';
+
+ALTER TABLE MYBORN.BOARD ADD
+(
+    CONSTRAINT PK_BOARD
+    PRIMARY KEY ( BOARD_NAME, BOARD_NO )
+        USING INDEX
+        TABLESPACE USERS 
+        PCTFREE 10
+        INITRANS 2
+        MAXTRANS 255
+        STORAGE (
+            INITIAL 64K
+            NEXT 1M
+            MINEXTENTS 1
+            MAXEXTENTS UNLIMITED
+        )
+);
+
