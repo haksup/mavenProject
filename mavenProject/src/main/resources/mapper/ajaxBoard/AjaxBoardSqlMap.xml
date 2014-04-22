@@ -4,8 +4,8 @@
 
 <mapper namespace="ajaxBoard">
 	
-	<select id="selectBoardCount" resultType="Integer">
-		SELECT
+	<select id="selectAjaxBoardCount" parameterType="hashmap" resultType="Integer">
+		SELECT	/* ajaxBoard.selectAjaxBoardCount */
 			COUNT(*) AS CNT
 		FROM 
 			BOARD
@@ -13,26 +13,25 @@
 			BOARD_NAME = #{boardName}
 	</select>
 	
-	<select id="selectBoard" resultType="hashmap">
-		SELECT * FROM (	SELECT ROWNUM RNUM,  ORG.* FROM (
-			SELECT
-				BOARD_NO,
-				CONTENTS,
-				DEL_YN,
-				REG_DATE,
-				REG_USER,
-				TITLE
-			FROM 
-				BOARD
-			<where>
-				<if test="pam01 != null">
-					BOARD_NO = #{pam01}
-				</if>
-				<if test="pam02 != null">
-					AND DEL_YN = #{pam02}
-				</if>
-			</where>
-		) ORG	) WHERE RNUM BETWEEN #{liststart} AND #{listend} 
+	<select id="selectAjaxBoard" parameterType="hashmap" resultType="hashmap">
+		SELECT * FROM 
+		(SELECT   ROWNUM RNUM
+				, ROW_NUMBER() OVER (ORDER BY BOARD_NO ASC) AS BOARD_NUMBER
+				, ORG.* FROM (
+								SELECT /*+ INDEX_DESC(A PK_BOARD) */	/* ajaxBoard.selectAjaxBoard */
+									  A.BOARD_NO
+									, A.TITLE
+									, A.CONTENTS
+									, A.DEL_YN
+									, TO_CHAR(A.REG_DATE, 'YYYY-MM-DD') AS REG_DATE
+									, A.REG_USER
+								FROM 
+									BOARD A
+								WHERE
+									A.BOARD_NAME = #{boardName}
+									AND A.DEL_YN = 'N'
+		) ORG	) WHERE RNUM BETWEEN #{liststart} AND #{listend}
+		ORDER BY BOARD_NUMBER DESC
 	</select>
 	
 </mapper>

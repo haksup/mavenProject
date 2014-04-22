@@ -1,6 +1,7 @@
 package project.ajaxBoard.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,21 +34,20 @@ public class AjaxBoardController extends CommonUtil{
 	
 	@RequestMapping("callBoard.do")
 	@ResponseBody
-	public HashMap<String, String> callBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public HashMap<String, Object> callBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap = mapBind(request); 
 		
 		// paging (S)
 		int total = ajaxBoardService.selectAjaxBoardCount(paramMap);
-		AjaxPaging ajaxPaging = new AjaxPaging(); 
-		ajaxPaging.setBoardName(paramMap);		// 게시판명
-		ajaxPaging.setActionname("callBoard");	// 액션명
-		ajaxPaging.setListNumber(paramMap);
-		String pagingHtml = ajaxPaging.pagingHatml(Integer.parseInt(paramMap.get("currentPage")), total);
+		AjaxPaging ajaxPaging = new AjaxPaging(paramMap); 
+		String pagingHtml = ajaxPaging.pagingHtml(Integer.parseInt(paramMap.get("currentPage")), total);
 		// paging (E)
 		
-		HashMap<String, String> resultMap = new HashMap<String, String>();
-		resultMap.put("title", "제목입니다.");
+		List<?> list = ajaxBoardService.selectAjaxBoard(paramMap);
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("boardList", list);
 		resultMap.put("pagingHtml", pagingHtml);
 		
 		return resultMap;

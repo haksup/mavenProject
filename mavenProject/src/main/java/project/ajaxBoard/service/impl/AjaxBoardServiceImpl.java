@@ -1,6 +1,7 @@
 package project.ajaxBoard.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class AjaxBoardServiceImpl implements AjaxBoardService {
 	@Override
 	public int selectAjaxBoardCount(HashMap<String, String> paramMap) {
 		return ajaxBoardDao.selectAjaxBoardCount(paramMap);
+	}
+
+	@Override
+	public List<?> selectAjaxBoard(HashMap<String, String> paramMap) {
+		return ajaxBoardDao.selectAjaxBoard(paramMap);
 	}
 
 }

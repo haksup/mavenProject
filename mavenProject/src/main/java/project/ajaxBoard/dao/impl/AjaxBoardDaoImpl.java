@@ -1,6 +1,7 @@
 package project.ajaxBoard.dao.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,12 @@ public class AjaxBoardDaoImpl extends MapperDao implements AjaxBoardDao{
 	
 	@Override
 	public int selectAjaxBoardCount(HashMap<String, String> paramMap) {
-		return getSqlSession().selectOne(NAMESPACE + "selectBoardCount", paramMap);
+		return getSqlSession().selectOne(NAMESPACE + "selectAjaxBoardCount", paramMap);
+	}
+
+	@Override
+	public List<?> selectAjaxBoard(HashMap<String, String> paramMap) {
+		return getSqlSession().selectList(NAMESPACE + "selectAjaxBoard", paramMap);
 	}
 
 }

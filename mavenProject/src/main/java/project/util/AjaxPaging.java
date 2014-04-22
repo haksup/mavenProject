@@ -6,16 +6,22 @@ public class AjaxPaging {
 	private int currentPage; // 현재페이지
 	private int totalCount;	 // 전체 게시물 수
 	private int totalPage;	 // 전체 페이지 수
-	private final int blockCount = 5;	 // 한 페이지의  게시물의 수
-	private final int blockPage = 3;	 // 한 화면에 보여줄 페이지 수
+	private final int blockCount = 10;	 // 한 페이지의  게시물의 수
+	private final int blockPage = 5;	 // 한 화면에 보여줄 페이지 수
 //	private int startCount;	 // 한 페이지에서 보여줄 게시글의 시작 번호
 //	private int endCount;	 // 한 페이지에서 보여줄 게시글의 끝 번호
 	private int startPage;	 // 시작 페이지
 	private int endPage;	 // 마지막 페이지
 	private String actionname; // 액션명
+	private String innerBoardName; // 화면에 그릴 게시판ID
 	private String boardName;  // 게시판명  
 	private StringBuffer pagingHtml;
 	
+	public AjaxPaging(HashMap<String, String> paramMap){
+		setListNumber(paramMap);	// 현재 페이지 계산
+		setBoardName(paramMap);		// 게시판명
+		setInnerBoardName(paramMap);	// 화면에 그릴 게시판ID
+	}
 	
 	/**
 	 * 현재 페이지 및 그에 따른 리스트 번호를 계산한다.
@@ -34,7 +40,6 @@ public class AjaxPaging {
 		}
 		
 		hm.put("listend", Integer.parseInt((String) hm.get("currentPage")) * getBlockCount() + "");	// 리스트의 마지막 숫자 계산
-		
 	}
 	
 	/**
@@ -65,7 +70,7 @@ public class AjaxPaging {
 	 * @param totalCount
 	 * @return
 	 */
-	public String pagingHatml(int currentPage, int totalCount) {
+	public String pagingHtml(int currentPage, int totalCount) {
 		this.currentPage = currentPage;
 		this.totalCount = totalCount;
 		
@@ -93,14 +98,14 @@ public class AjaxPaging {
 		
 		if (currentPage > blockPage) {
 			pagingHtml
-			.append("&nbsp;<a href='"+actionname+".do?currentPage=");
+			.append("&nbsp;<a href='#' onClick=\"fn_callBoard('" + boardName + "', '" + innerBoardName + "', ");
 			pagingHtml.append(1);
-			pagingHtml.append("'>");
+			pagingHtml.append(") \">");
 			pagingHtml.append("처음으로");
 			pagingHtml.append("</a>");
 			pagingHtml.append("&nbsp;");
-			pagingHtml.append("<a href="+actionname+".do?currentPage="
-					+ (startPage - 1) + ">");
+			pagingHtml.append("<a href='#' onClick=\"fn_callBoard('" + boardName + "', '" + innerBoardName + "', "
+					+ (startPage - 1) + ") \">");
 			pagingHtml.append("이전");
 			pagingHtml.append("</a>");
 		}
@@ -116,9 +121,9 @@ public class AjaxPaging {
 				pagingHtml.append("</span></b>");
 			} else {
 				pagingHtml
-						.append("&nbsp;<a href='"+actionname+".do?currentPage=");
+						.append("&nbsp;<a href='#' onClick=\"fn_callBoard('" + boardName + "', '" + innerBoardName + "', ");
 				pagingHtml.append(i);
-				pagingHtml.append("' class='norfont'>");
+				pagingHtml.append(")\"  class='norfont'>");
 				pagingHtml.append(i);
 				pagingHtml.append("</a>");
 			}
@@ -127,15 +132,15 @@ public class AjaxPaging {
 		pagingHtml.append("&nbsp;");
 		// 다음 block 페이지
 		if (totalPage - startPage >= blockPage) {
-			pagingHtml.append("<a href="+actionname+".do?currentPage="
-					+ (endPage + 1) + ">");
+			pagingHtml.append("<a href='#' onClick=\"fn_callBoard('" + boardName + "', '" + innerBoardName + "', "
+					+ (endPage + 1) + ") \">");
 			pagingHtml.append("다음");
 			pagingHtml.append("</a>");
 			pagingHtml.append("&nbsp;");
 			pagingHtml
-			.append("&nbsp;<a href='"+actionname+".do?currentPage=");
+			.append("&nbsp;<a href='#' onClick=\"fn_callBoard('" + boardName + "', '" + innerBoardName + "', ");
 			pagingHtml.append(totalPage);
-			pagingHtml.append("'>");
+			pagingHtml.append(") \">");
 			pagingHtml.append("끝");
 			pagingHtml.append("</a>");
 		}
@@ -170,5 +175,9 @@ public class AjaxPaging {
 	public void setBoardName(HashMap<String, String> paramMap) {
 		this.boardName = (String) paramMap.get("boardName");
 	}
+	public void setInnerBoardName(HashMap<String, String> paramMap) {
+		this.innerBoardName = (String) paramMap.get("innerBoardName");
+	}
+	
 	
 }
