@@ -13,16 +13,14 @@
 			BOARD_NAME = #{boardName}
 	</select>
 	
-	<select id="selectAjaxBoard" parameterType="hashmap" resultType="hashmap">
+	<select id="selectAjaxBoardList" parameterType="hashmap" resultType="hashmap">
 		SELECT * FROM 
 		(SELECT   ROWNUM RNUM
 				, ROW_NUMBER() OVER (ORDER BY BOARD_NO ASC) AS BOARD_NUMBER
 				, ORG.* FROM (
-								SELECT /*+ INDEX_DESC(A PK_BOARD) */	/* ajaxBoard.selectAjaxBoard */
+								SELECT /*+ INDEX_DESC(A PK_BOARD) */	/* ajaxBoard.selectAjaxBoardList */
 									  A.BOARD_NO
 									, A.TITLE
-									, A.CONTENTS
-									, A.DEL_YN
 									, TO_CHAR(A.REG_DATE, 'YYYY-MM-DD') AS REG_DATE
 									, A.REG_USER
 								FROM 
@@ -34,4 +32,73 @@
 		ORDER BY BOARD_NUMBER DESC
 	</select>
 	
+	<insert id="insertAjaxBoard" parameterType="hashmap">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(BOARD_NO),0) + 1
+			FROM
+				BOARD
+			WHERE
+				BOARD_NAME = #{boardName}
+		</selectKey>
+		INSERT INTO BOARD
+		( 
+			  BOARD_NAME
+			, BOARD_NO
+			, TITLE
+			, CONTENTS
+			, DEL_YN
+			, REG_DATE
+			, REG_USER
+			, MOD_DATE
+			, MOD_USER
+		)
+		VALUES
+		( 
+			#{boardName}
+			, #{boardNo}
+			, #{title}
+			, #{contents}
+			, 'N'
+			, SYSDATE
+			, 'regUser'
+			, SYSDATE
+			, 'modUser'
+		)
+	</insert>
+	
+	<select id="selectAjaxBoard" parameterType="hashmap" resultType="hashmap">
+		SELECT /* ajaxBoard.selectAjaxBoard */
+			  A.BOARD_NO
+			, A.TITLE
+			, A.CONTENTS
+			, TO_CHAR(A.REG_DATE, 'YYYY-MM-DD') AS REG_DATE
+			, A.REG_USER
+		FROM 
+			BOARD A
+		WHERE
+			A.BOARD_NAME = #{boardName}
+			AND A.BOARD_NO = #{boardNo}
+			AND A.DEL_YN = 'N'
+	</select>
+	
+	<update id="updateAjaxBoard" parameterType="hashmap">
+		UPDATE
+			BOARD
+		SET
+			TITLE = #{title}
+			, CONTENTS = #{contents}
+		WHERE
+			BOARD_NAME = #{boardName}
+			AND BOARD_NO = #{boardNo}
+	</update>
+	
+	<delete id="deleteAjaxBoard" parameterType="hashmap">
+		DELETE
+		FROM
+			BOARD
+		WHERE
+			BOARD_NAME = #{boardName}
+			AND BOARD_NO = #{boardNo}
+	</delete>
 </mapper>

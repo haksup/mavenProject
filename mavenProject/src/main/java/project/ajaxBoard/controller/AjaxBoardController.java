@@ -32,9 +32,9 @@ public class AjaxBoardController extends CommonUtil{
 		return mav;
 	}
 	
-	@RequestMapping("callBoard.do")
+	@RequestMapping("callAjaxBoard.do")
 	@ResponseBody
-	public HashMap<String, Object> callBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public HashMap<String, Object> callAjaxBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap = mapBind(request); 
 		
@@ -44,7 +44,7 @@ public class AjaxBoardController extends CommonUtil{
 		String pagingHtml = ajaxPaging.pagingHtml(Integer.parseInt(paramMap.get("currentPage")), total);
 		// paging (E)
 		
-		List<?> list = ajaxBoardService.selectAjaxBoard(paramMap);
+		List<?> list = ajaxBoardService.selectAjaxBoardList(paramMap);
 		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("boardList", list);
@@ -52,4 +52,49 @@ public class AjaxBoardController extends CommonUtil{
 		
 		return resultMap;
 	}
+	
+	@RequestMapping("insertAjaxBoard.do")
+	@ResponseBody
+	public HashMap<String, Object> insertAjaxBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap = mapBind(request); 
+		
+		ajaxBoardService.insertAjaxBoard(paramMap);
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		return resultMap;
+	}
+	
+	@RequestMapping("boardAjaxDetail.do")
+	@ResponseBody
+	public HashMap<String, Object> boardAjaxDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap = mapBind(request); 
+		
+		HashMap<String, Object> resultMap = ajaxBoardService.selectAjaxBoard(paramMap);
+		
+		return resultMap;
+	}
+	
+	@RequestMapping("modifyAjaxBoard.do")
+	public void modifyAjaxBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap = mapBind(request); 
+		
+		ajaxBoardService.updateAjaxBoard(paramMap);
+		
+	}
+
+	@RequestMapping("deleteAjaxBoard.do")
+	public void deleteAjaxBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap = mapBind(request); 
+		
+		ajaxBoardService.deleteAjaxBoard(paramMap);
+		
+	}
+	
+	
+	
+	
 }

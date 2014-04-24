@@ -7,86 +7,115 @@
 <title>ajax Board</title>
 <!-- js, css include(S)-->
 <%@ include file="/WEB-INF/include/include.jsp"%>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/ajaxBoard.js"></script>
 <!-- js, css include(E)-->
 
 <script language="javascript">
 jQuery(document).ready(function(){
 	fn_callBoard("NOTICE","board1");
-	fn_callBoard("NOTICE","board2");
-});
-
-
-// 공통 js로 묶어서 작업(S)
-
-/**
- * 게시판 호출
- * @param boardName		 : 게시판 명
- * @param innerBoardName : 게시판 위치 inner 명
- * @param currentPage	 : 현재 페이지
- */
-function fn_callBoard(boardName, innerBoardName, currentPage){
-	var param = new Object();
-	param.boardName = boardName;
-	param.innerBoardName = innerBoardName;
-	param.currentPage = currentPage;
+	fn_callBoard("FREEBOARD","board2");
 	
-	$.ajax({
-		url: 'callBoard.do',
-		type: 'post',
-		data : param,
-		async : false,
-		datatype: 'json',
-		success : function(result){
-			var board = fn_drawBoard(result.boardList);
-			$('#' + innerBoardName).html(board + "<br/>"+ result.pagingHtml);
-		},
-		error : function(){
-			alert("error");
-		}
-		
+	$('#save').click(function(){
+		$("#ajaxBoardForm").ajaxSubmit({
+			url : "insertAjaxBoard.do",
+			dataType: "html",
+			success: function(data) {
+				var boardName = jQuery(':input:radio[name=boardName]:checked').val();
+				if(boardName == "NOTICE"){
+					fn_callBoard("NOTICE","board1");
+				}
+				else if(boardName == "FREEBOARD"){
+					fn_callBoard("FREEBOARD","board2");
+				}
+				alert("저장이 완료되었습니다.");
+			},
+			error : function(){
+				alert("정보를 저장 하지 못했습니다.");
+			}
+		});
 	});
-}
-
-function fn_drawBoard(boardList){
-	var board = "<table border='1'>";
-	board += "<tr>";
-	board += "<td width='50'>번호</td>";
-	board += "<td width='250'>제목</td>";
-	board += "<td width='50'>등록자</td>";
-	board += "<td width='150'>등록일</td>";
-	board += "</tr>";
-	for(var i = 0; i < boardList.length; i++){
-		board += "<tr>";
-		board += "	<td>";
-		board += boardList[i].BOARD_NUMBER;
-		board += "	</td>";
-		board += "	<td>";
-		board += boardList[i].TITLE;
-		board += "	</td>";
-		board += "	<td>";
-		board += boardList[i].REG_USER;
-		board += "	</td>";
-		board += "	<td>";
-		board += boardList[i].REG_DATE;
-		board += "	</td>";
-		board += "</tr>";
-	}
-	board += "</table>";
 	
-	return board;
-}
-
-//공통 js로 묶어서 작업(E)
+	$("#modify").click(function(){
+		$("#ajaxBoardForm").ajaxSubmit({
+			url : "modifyAjaxBoard.do",
+			dataType: "html",
+			data : {
+				boardNo : global_boardNo
+			},
+			success: function(data) {
+				fn_callBoard(global_boardName, global_innerBoardName, global_currentPage);
+				alert("수정되었습니다.");
+			},
+			error : function(){
+				alert("정보를 저장 하지 못했습니다.");
+			}
+		});
+	});
+	
+	$("#delete").click(function(){
+		$.ajax({
+			url: 'deleteAjaxBoard.do',
+			type: 'post',
+			data : {
+				boardName :global_boardName
+				, boardNo : global_boardNo
+			},
+			async : false,
+			datatype: 'json',
+			success : function(result){
+				fn_callBoard(global_boardName, global_innerBoardName, global_currentPage);
+				alert("삭제되었습니다.");
+			},
+			error : function(){
+				alert("error");
+			}
+			
+		});
+	});
+});
 </script>
 </head>
 <body>
 <div id="wrap">
-	<div id="board1">
+	<div style="float: left;">
+		<div id="board1"></div>
+		
+		<div style="height: 30px;"></div>
+		
+		<div id="board2"></div>
 	</div>
 	
-	<div style="height: 30px;"></div>
-	
-	<div id="board2">
+	<div id="boardView" style="float:left; padding:0 0 0 50px; width: 530px;">
+		<div id="tableForm">
+			<form id="ajaxBoardForm">
+			<table border="1">
+				<colgroup>
+					<col width="100"/>
+					<col width="400"/>
+				</colgroup>
+				<tr>
+					<td>게시판 선택</td>
+					<td>
+						<input type="radio" name="boardName" id="NOTICE" value="NOTICE" checked="checked"/><label>공지사항</label>
+						<input type="radio" name="boardName" id="FREEBOARD" value="FREEBOARD" /><label>자유게시판</label>
+					</td>
+				</tr>
+				<tr>
+					<td>제목</td>
+					<td><input type="text" id="title" name="title" style="width:350px;" /></td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td><textarea id="contents" name="contents" style="width:350px; height: 100px;"></textarea></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+		<div id="tableButton" style="padding:10px 0 0 0; text-align: center;">
+			<input type="button" id="save" value="저장" />
+			<input type="button" id="modify" value="수정" />
+			<input type="button" id="delete" value="삭제" />
+		</div>
 	</div>
 </div>
 </body>

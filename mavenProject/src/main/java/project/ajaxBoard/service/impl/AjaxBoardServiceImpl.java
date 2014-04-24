@@ -20,8 +20,28 @@ public class AjaxBoardServiceImpl implements AjaxBoardService {
 	}
 
 	@Override
-	public List<?> selectAjaxBoard(HashMap<String, String> paramMap) {
+	public List<?> selectAjaxBoardList(HashMap<String, String> paramMap) {
+		return ajaxBoardDao.selectAjaxBoardList(paramMap);
+	}
+
+	@Override
+	public int insertAjaxBoard(HashMap<String, String> paramMap) {
+		return ajaxBoardDao.insertAjaxBoard(paramMap);
+	}
+
+	@Override
+	public HashMap<String, Object> selectAjaxBoard(HashMap<String, String> paramMap) {
 		return ajaxBoardDao.selectAjaxBoard(paramMap);
+	}
+
+	@Override
+	public int updateAjaxBoard(HashMap<String, String> paramMap) {
+		return ajaxBoardDao.updateAjaxBoard(paramMap);
+	}
+
+	@Override
+	public int deleteAjaxBoard(HashMap<String, String> paramMap) {
+		return ajaxBoardDao.deleteAjaxBoard(paramMap);
 	}
 
 }

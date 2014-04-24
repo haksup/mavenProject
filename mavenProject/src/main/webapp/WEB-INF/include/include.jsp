@@ -9,3 +9,4 @@ function getContextPath(){
 </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.form.js"></script>
